@@ -23,9 +23,8 @@ class ImportStocksCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln('Importer started');
-
         $importer = $this->getContainer()->get('stock_importer.stock_impoter');
+        $importer->setOutput($output);
         $importer->import();
     }
 }

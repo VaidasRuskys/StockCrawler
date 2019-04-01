@@ -1,3 +1,8 @@
 services:
     stock_importer.stock_impoter:
         class: AppBundle\Service\StockImporter
+        arguments:
+            - '@stock_importer.stock_repository'
+
+    stock_importer.stock_repository:
+        class: AppBundle\Repository\StockRepository
