@@ -3,6 +3,8 @@ services:
         class: AppBundle\Service\StockImporter
         arguments:
             - '@stock_importer.stock_repository'
+        calls:
+            - [setLogger,['@monolog.logger']]
 
     stock_importer.stock_repository:
         class: AppBundle\Repository\StockRepository

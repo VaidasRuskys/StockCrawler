@@ -4,6 +4,8 @@ namespace AppBundle\Service;
 
 use AppBundle\Model\Stock;
 use AppBundle\Repository\StockRepository;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -11,6 +13,9 @@ class StockImporter
 {
     /** @var OutputInterface */
     private $output;
+
+    /** @var LoggerInterface */
+    private $logger;
 
     /** @var StockRepository */
     private $stockRepository;
@@ -23,6 +28,7 @@ class StockImporter
     {
         $this->stockRepository = $stockRepository;
         $this->output = new NullOutput();
+        $this->logger = new NullLogger();
     }
 
     /**
@@ -31,6 +37,14 @@ class StockImporter
     public function setOutput($output)
     {
         $this->output = $output;
+    }
+
+    /**
+     * @param LoggerInterface $logger
+     */
+    public function setLogger($logger)
+    {
+        $this->logger = $logger;
     }
 
     public function import()
@@ -42,6 +56,7 @@ class StockImporter
         /** @var Stock $stock */
         foreach ($list as $stock) {
             $this->output->writeln(sprintf('Start importing %s (%s)', $stock->getSymbol(), $stock->getName()));
+            $this->logger->info(sprintf('Start importing %s (%s)', $stock->getSymbol(), $stock->getName()));
         }
     }
 }
