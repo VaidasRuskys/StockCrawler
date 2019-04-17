@@ -2,13 +2,26 @@
 
 namespace AppBundle\Logger;
 
+use Okvpn\Bundle\DatadogBundle\Client\DatadogClient;
 use Psr\Log\AbstractLogger;
 use Psr\Log\LoggerInterface;
 
 class DataDogLogger extends AbstractLogger implements LoggerInterface
 {
+    /** @var DatadogClient */
+    private $dataDogClient;
+
+    /**
+     * DataDogLogger constructor.
+     * @param DatadogClient $dataDogClient
+     */
+    public function __construct(DatadogClient $dataDogClient)
+    {
+        $this->dataDogClient = $dataDogClient;
+    }
+
     public function log($level, $message, array $context = array())
     {
-        // TODO: Implement log() method.
+        $this->dataDogClient->event($level, $message, $context, [$level]);
     }
 }

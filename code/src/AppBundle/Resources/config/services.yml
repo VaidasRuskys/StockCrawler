@@ -11,3 +11,5 @@ services:
 
     stock_importer.logger.data_dog:
         class: AppBundle\Logger\DataDogLogger
+        arguments:
+            - '@okvpn_datadog.client'
