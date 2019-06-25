@@ -20,6 +20,11 @@ class DataDogLogger extends AbstractLogger implements LoggerInterface
         $this->dataDogClient = $dataDogClient;
     }
 
+    /**
+     * @param mixed $level
+     * @param string $message
+     * @param array $context
+     */
     public function log($level, $message, array $context = array())
     {
         $this->dataDogClient->event($level, $message, $context, [$level]);
