@@ -6,8 +6,42 @@ services:
         calls:
             - [setLogger,['@monolog.logger']]
 
+    stock_importer.email_report_importer:
+        class: AppBundle\Service\EmailReportImporter
+        arguments:
+            - '@stock_importer.repository.email'
+            - '@stock_importer.parser.email_report'
+
     stock_importer.stock_repository:
         class: AppBundle\Repository\StockRepository
+
+    stock_importer.repository.email:
+        class: AppBundle\Repository\EmailRepository
+        arguments:
+            - '@stock_importer.receiver.email_report'
+
+    stock_importer.parser.email_report:
+        class: AppBundle\Service\Parser\EmailReportParser
+
+    stock_importer.google_drive_service.read_only:
+        class: Google_Service_Drive
+        arguments:
+          - '@stock_importer.client.google_drive.read_only'
+
+    stock_importer.receiver.email_report:
+        class: AppBundle\Service\EmailReportReceiver
+        arguments:
+          - '@stock_importer.google_drive_service.read_only'
+          - '%stock_crawler.email_report.google_drive_file_id%'
+
+    stock_importer.client.google_drive.read_only:
+        factory:   ['@stock_importer.factory.google_drive', createReadOnly]
+        class: Google_Client
+        arguments:
+            - 'credentials.json'
+
+    stock_importer.factory.google_drive:
+        class: AppBundle\Service\Factory\GoogleDriveClientFactory
 
     stock_importer.logger.data_dog:
         class: AppBundle\Logger\DataDogLogger
