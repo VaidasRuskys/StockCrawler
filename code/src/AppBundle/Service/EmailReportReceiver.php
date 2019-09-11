@@ -3,9 +3,12 @@
 namespace AppBundle\Service;
 
 use Google_Service_Drive;
+use ArrayIterator;
 
 class EmailReportReceiver
 {
+    const END_TAG = '</html>';
+
     /** @var Google_Service_Drive */
     private $googleDriveService;
 
@@ -25,11 +28,6 @@ class EmailReportReceiver
 
     public function receive()
     {
-        $optParams = array(
-            'pageSize' => 10,
-            'fields' => 'nextPageToken, files(id, name)'
-        );
-
         $response = $this->googleDriveService->files->export(
             $this->fileId,
             'text/csv',
@@ -37,7 +35,16 @@ class EmailReportReceiver
                 'alt' => 'media'
             ));
         $content = $response->getBody()->getContents();
+        $result = new ArrayIterator();
 
-        var_dump($content);
+        while ($content) {
+            $endPos = strpos($content, self::END_TAG) + strlen(self::END_TAG);
+            $email = substr($content, 0, $endPos);
+            $email = str_replace('""', '"', $email);
+            strlen($email) > 10 && $result->append($email);
+            $content = substr($content, $endPos);
+        }
+
+        return $result;
     }
 }

@@ -17,16 +17,12 @@ class EmailReportImporter
     /** @var LoggerInterface */
     private $logger;
 
-    /** @var EmailRepository */
-    private $emailRepository;
+    /** @var EmailReportReceiver */
+    private $emailReceiver;
 
-    /** @var EmailReportParser */
-    private $emailParser;
-
-    public function __construct(EmailRepository $emailRepository, EmailReportParser $emailParser)
+    public function __construct(EmailReportReceiver $emailReceiver)
     {
-        $this->emailRepository = $emailRepository;
-        $this->emailParser = $emailParser;
+        $this->emailReceiver = $emailReceiver;
         $this->output = new NullOutput();
         $this->logger = new NullLogger();
     }
@@ -35,9 +31,9 @@ class EmailReportImporter
     {
         try {
             $this->output->writeln('<info>Importer started</info>');
-            $emails = $this->emailRepository->getEmails();
+            $emails = $this->emailReceiver->receive();
             foreach($emails as $email) {
-                //$parsed = $this->emailParser->parse($email['body']);
+                var_dump($email);
             }
             $this->output->writeln(sprintf('get %d emails', $emails->count()));
         } catch (\Exception $exception) {
