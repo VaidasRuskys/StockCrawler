@@ -10,6 +10,7 @@ services:
         class: AppBundle\Service\EmailReportImporter
         arguments:
             - '@stock_importer.receiver.email_report'
+            - '@stock_importer.parser.email_report'
 
     stock_importer.stock_repository:
         class: AppBundle\Repository\StockRepository
