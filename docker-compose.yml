@@ -49,6 +49,17 @@ services:
     networks:
       - esnet
 
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.0.0
+    environment:
+      - ELASTICSEARCH_HOSTS=http://192.168.99.100:9200/
+    links:
+      - es01
+    ports:
+      - 5601:5601
+    networks:
+      - esnet
+
 volumes:
   esdata01:
     driver: local
