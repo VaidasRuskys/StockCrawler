@@ -2,7 +2,7 @@
 
 namespace AppBundle\Service;
 
-use AppBundle\Model\Stock;
+use AppBundle\Model\IndexDocument\Stock;
 use AppBundle\Repository\StockRepository;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
