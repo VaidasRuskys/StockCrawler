@@ -56,7 +56,7 @@ class StockImporter
         /** @var Stock $stock */
         foreach ($list as $stock) {
             $this->output->writeln(sprintf('Start importing %s (%s)', $stock->getSymbol(), $stock->getName()));
-            $this->logger->info(sprintf('Start importing %s (%s)', $stock->getSymbol(), $stock->getName()));
+            $this->logger->info(sprintf('Start importing stock'), [$stock->getSymbol(), $stock->getName()]);
         }
     }
 }

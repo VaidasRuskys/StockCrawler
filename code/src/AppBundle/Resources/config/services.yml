@@ -4,7 +4,7 @@ services:
         arguments:
             - '@stock_importer.stock_repository'
         calls:
-            - [setLogger,['@monolog.logger']]
+            - [setLogger,['@stock_importer.logger.index']]
 
     stock_importer.logger.data_dog:
         class: AppBundle\Logger\DataDogLogger
