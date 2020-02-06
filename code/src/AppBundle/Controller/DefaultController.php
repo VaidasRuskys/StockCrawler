@@ -2,8 +2,6 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Model\IndexDocument\Log;
-use AppBundle\Model\IndexDocument\Stock;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,13 +25,9 @@ class DefaultController extends Controller
      */
     public function apiAction(Request $request)
     {
-        $repository = $this->get('stock_importer.repository.log');
+        $logger = $this->get('stock_importer.logger.index');
+        $logger->info('Request API', ['uri' => $request->getRequestUri()]);
 
-        $log = new Log();
-        $log->setMessage('event logged');
-
-        $repository->addDocument($log);
-
-        return new JsonResponse($repository->getDocument('uXpODHAB2FxnKapGkQLo')->getBody());
+        return new JsonResponse(['OK']);
     }
 }
