@@ -11,6 +11,11 @@ services:
         arguments:
             - '@okvpn_datadog.client'
 
+    stock_importer.logger.index:
+        class: AppBundle\Logger\IndexLogger
+        arguments:
+            - '@stock_importer.repository.log'
+
     stock_importer.index_client_factory:
         class: AppBundle\Service\Factory\IndexClientFactory
 
@@ -19,6 +24,9 @@ services:
         class: Elasticsearch\Client
         arguments:
             - ['http://192.168.99.100:9200']
+
+    stock_importer.stock_repository:
+        class: AppBundle\Repository\StockRepository
 
     stock_importer.repository.log:
         class: AppBundle\Repository\LogRepository
