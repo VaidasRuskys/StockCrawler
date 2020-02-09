@@ -2,7 +2,7 @@
 
 namespace AppBundle\Service;
 
-use AppBundle\Model\Stock;
+use AppBundle\Model\IndexDocument\Stock;
 use AppBundle\Repository\StockRepository;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
@@ -56,7 +56,7 @@ class StockImporter
         /** @var Stock $stock */
         foreach ($list as $stock) {
             $this->output->writeln(sprintf('Start importing %s (%s)', $stock->getSymbol(), $stock->getName()));
-            $this->logger->info(sprintf('Start importing %s (%s)', $stock->getSymbol(), $stock->getName()));
+            $this->logger->info(sprintf('Start importing stock'), [$stock->getSymbol(), $stock->getName()]);
         }
     }
 }

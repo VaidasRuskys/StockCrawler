@@ -1,9 +1,8 @@
 <?php
 
-
 namespace AppBundle\Repository;
 
-use AppBundle\Model\Stock;
+use AppBundle\Model\IndexDocument\Stock;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class StockRepository
@@ -11,8 +10,16 @@ class StockRepository
     public function getStocksToImport()
     {
         $list = new ArrayCollection();
-        $list->add(new Stock('FB', 'Facebook'));
-        $list->add(new Stock('NFLX', 'Netflix'));
+
+        $stockFB = new Stock();
+        $stockFB->setSymbol('FB');
+        $stockFB->setName('Facebook');
+        $list->add($stockFB);
+
+        $stockNFLX = new Stock();
+        $stockNFLX->setSymbol('NFLX');
+        $stockNFLX->setName('Netflix');
+        $list->add($stockNFLX);
 
         return $list;
     }

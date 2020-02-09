@@ -1,25 +1,14 @@
 <?php
 
-namespace AppBundle\Model;
+namespace AppBundle\Model\IndexDocument;
 
-class Stock
+class Stock extends IndexDocument
 {
     /** @var string */
-    private $symbol;
+    public $symbol;
 
     /** @var string */
-    private $name;
-
-    /**
-     * Stock constructor.
-     * @param string $symbol
-     * @param string $name
-     */
-    public function __construct($symbol, $name)
-    {
-        $this->symbol = $symbol;
-        $this->name = $name;
-    }
+    public $name;
 
     /**
      * @return string
