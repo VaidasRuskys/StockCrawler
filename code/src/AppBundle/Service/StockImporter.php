@@ -4,6 +4,8 @@ namespace AppBundle\Service;
 
 use AppBundle\Model\IndexDocument\Stock;
 use AppBundle\Repository\StockRepository;
+use AppBundle\Service\StockImporter\StockImporterInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Symfony\Component\Console\Output\NullOutput;
@@ -20,6 +22,9 @@ class StockImporter
     /** @var StockRepository */
     private $stockRepository;
 
+    /** @var ArrayCollection */
+    private $importersList;
+
     /**
      * StockImporter constructor.
      * @param StockRepository $stockRepository
@@ -29,6 +34,7 @@ class StockImporter
         $this->stockRepository = $stockRepository;
         $this->output = new NullOutput();
         $this->logger = new NullLogger();
+        $this->importersList = new ArrayCollection();
     }
 
     /**
@@ -49,14 +55,23 @@ class StockImporter
 
     public function import()
     {
-        $this->output->writeln('Importer Service started');
+        $this->output->writeln('StockImporter Service started');
 
         $list = $this->stockRepository->getStocksToImport();
 
         /** @var Stock $stock */
         foreach ($list as $stock) {
-            $this->output->writeln(sprintf('Start importing %s (%s)', $stock->getSymbol(), $stock->getName()));
-            $this->logger->info(sprintf('Start importing stock'), [$stock->getSymbol(), $stock->getName()]);
+            /** @var StockImporterInterface $importer */
+            foreach($this->importersList as $importer)
+            {
+                $importer->setOutput($this->output);
+                $importer->import($stock);
+            }
         }
+    }
+
+    public function addImporter(StockImporterInterface $importer)
+    {
+        $this->importersList->add($importer);
     }
 }

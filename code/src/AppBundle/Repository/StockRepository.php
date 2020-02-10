@@ -21,6 +21,11 @@ class StockRepository
         $stockNFLX->setName('Netflix');
         $list->add($stockNFLX);
 
+        $stockMSFT = new Stock();
+        $stockMSFT->setSymbol('MSFT');
+        $stockMSFT->setName('Microsoft');
+        $list->add($stockMSFT);
+
         return $list;
     }
 }

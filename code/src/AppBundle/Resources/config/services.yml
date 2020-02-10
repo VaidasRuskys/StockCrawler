@@ -5,6 +5,7 @@ services:
             - '@stock_importer.stock_repository'
         calls:
             - [setLogger,['@stock_importer.logger.index']]
+            - [addImporter,['@stock_importer.importer.nasdaq_earnings']]
 
     stock_importer.logger.data_dog:
         class: AppBundle\Logger\DataDogLogger
@@ -33,3 +34,6 @@ services:
         arguments:
             - '@stock_importer.index_client'
             - 'AppBundle\Model\IndexDocument\Log'
+
+    stock_importer.importer.nasdaq_earnings:
+        class: AppBundle\Service\StockImporter\NasdaqEarningsImporter
