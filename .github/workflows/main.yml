@@ -12,4 +12,4 @@ jobs:
     - name: Run a multi-line script
       run: |
         cd code
-        composer install
+        composer install --no-interaction
