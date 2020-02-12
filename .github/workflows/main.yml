@@ -1,4 +1,4 @@
-name: CI
+name: Run tests
 
 on: [push]
 
@@ -12,4 +12,5 @@ jobs:
     - name: Run a multi-line script
       run: |
         cd code
+        php -v
         composer install --no-interaction
