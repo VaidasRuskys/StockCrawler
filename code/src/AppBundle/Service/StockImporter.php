@@ -59,10 +59,10 @@ class StockImporter
 
         $list = $this->stockRepository->getStocksToImport();
 
-        /** @var Stock $stock */
-        foreach ($list as $stock) {
-            /** @var StockImporterInterface $importer */
-            foreach($this->importersList as $importer)
+        /** @var StockImporterInterface $importer */
+        foreach($this->importersList as $importer)
+            /** @var Stock $stock */
+            foreach ($list as $stock) {
             {
                 $importer->setOutput($this->output);
                 $importer->import($stock);

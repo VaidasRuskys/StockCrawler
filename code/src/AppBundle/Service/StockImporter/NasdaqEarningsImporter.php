@@ -6,43 +6,16 @@ use AppBundle\Model\IndexDocument\Earnings;
 use AppBundle\Model\IndexDocument\Stock;
 use AppBundle\Repository\EarningsRepository;
 use GuzzleHttp\Client;
-use Psr\Log\LoggerInterface;
-use Psr\Log\NullLogger;
-use Symfony\Component\Console\Output\NullOutput;
-use Symfony\Component\Console\Output\OutputInterface;
 
-class NasdaqEarningsImporter implements StockImporterInterface
+class NasdaqEarningsImporter extends AbstractStockImporter implements StockImporterInterface
 {
-    /** @var OutputInterface */
-    private $output;
-
-    /** @var LoggerInterface */
-    private $logger;
-
     /** @var EarningsRepository */
     private $earningsRepository;
 
     public function __construct(EarningsRepository $earningsRepository)
     {
-        $this->output = new NullOutput();
-        $this->logger = new NullLogger();
+        parent::__construct();
         $this->earningsRepository = $earningsRepository;
-    }
-
-    /**
-     * @param OutputInterface $output
-     */
-    public function setOutput($output)
-    {
-        $this->output = $output;
-    }
-
-    /**
-     * @param LoggerInterface $logger
-     */
-    public function setLogger($logger)
-    {
-        $this->logger = $logger;
     }
 
     public function import(Stock $stock)
