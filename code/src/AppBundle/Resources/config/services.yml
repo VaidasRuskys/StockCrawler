@@ -6,6 +6,7 @@ services:
         calls:
             - [setLogger,['@stock_importer.logger.index']]
             - [addImporter,['@stock_importer.importer.nasdaq_earnings']]
+            - [addImporter,['@stock_importer.importer.tipranks_analyst_consensus']]
 
     stock_importer.logger.data_dog:
         class: AppBundle\Logger\DataDogLogger
@@ -45,3 +46,6 @@ services:
         class: AppBundle\Service\StockImporter\NasdaqEarningsImporter
         arguments:
             - '@stock_importer.repository.earnings'
+
+    stock_importer.importer.tipranks_analyst_consensus:
+        class: AppBundle\Service\StockImporter\TipranksAnalystConsensusImporter
