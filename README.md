@@ -1,1 +1,1 @@
-![CI](https://github.com/VaidasRuskys/StockCrawler/workflows/CI/badge.svg?branch=master)
+![Run tests](https://github.com/VaidasRuskys/StockCrawler/workflows/Run%20tests/badge.svg)
