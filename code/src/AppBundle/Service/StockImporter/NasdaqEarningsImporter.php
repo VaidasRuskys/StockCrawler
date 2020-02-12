@@ -2,9 +2,13 @@
 
 namespace AppBundle\Service\StockImporter;
 
+use AppBundle\Model\IndexDocument\Earnings;
 use AppBundle\Model\IndexDocument\Stock;
+use AppBundle\Repository\EarningsRepository;
 use GuzzleHttp\Client;
 use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
+use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class NasdaqEarningsImporter implements StockImporterInterface
@@ -14,6 +18,16 @@ class NasdaqEarningsImporter implements StockImporterInterface
 
     /** @var LoggerInterface */
     private $logger;
+
+    /** @var EarningsRepository */
+    private $earningsRepository;
+
+    public function __construct(EarningsRepository $earningsRepository)
+    {
+        $this->output = new NullOutput();
+        $this->logger = new NullLogger();
+        $this->earningsRepository = $earningsRepository;
+    }
 
     /**
      * @param OutputInterface $output
@@ -53,6 +67,19 @@ class NasdaqEarningsImporter implements StockImporterInterface
                         $latest['earnings']
                     )
                 );
+
+                $earnings = new Earnings();
+                $earnings->setStockSymbol($stock->getSymbol());
+                $earnings->setType('Quarter');
+                $earnings->setList(
+                    [
+                        'period' => $latest['period'],
+                        'estimaded' => $latest['consensus'],
+                        'reported' => $latest['earnings']
+                    ]
+                );
+
+                $this->earningsRepository->addDocument($earnings);
             }
         }
     }

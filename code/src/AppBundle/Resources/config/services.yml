@@ -35,5 +35,13 @@ services:
             - '@stock_importer.index_client'
             - 'AppBundle\Model\IndexDocument\Log'
 
+    stock_importer.repository.earnings:
+        class: AppBundle\Repository\EarningsRepository
+        arguments:
+            - '@stock_importer.index_client'
+            - 'AppBundle\Model\IndexDocument\Earnings'
+
     stock_importer.importer.nasdaq_earnings:
         class: AppBundle\Service\StockImporter\NasdaqEarningsImporter
+        arguments:
+            - '@stock_importer.repository.earnings'
