@@ -11,4 +11,4 @@ jobs:
     - name: Install dependencies
       uses: php-actions/composer@v1
       with:
-        command: cd code;composer install --no-interaction;
+        command: cd code|composer install --no-interaction
