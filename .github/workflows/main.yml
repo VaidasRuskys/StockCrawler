@@ -6,9 +6,15 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-
+    env: 
+      working-directory: ./code
+      
     steps:
-    - name: Install dependencies
-      uses: php-actions/composer@v1
+    - name: Composer install
+      uses: docker://composer
       with:
-        command: composer install --no-interaction
+        args: install
+    - name: PHPUnit testing
+      uses: docker://php
+      with:
+        args: php vendor/bin/phpunit
