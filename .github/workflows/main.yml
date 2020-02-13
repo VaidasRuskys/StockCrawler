@@ -8,9 +8,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Run a multi-line script
-      run: |
-        cd code
-        php -v
-        composer install --no-interaction
+    - name: Install dependencies
+      uses: php-actions/composer@v1
+      with:
+        command: cd code;composer install --no-interaction;
