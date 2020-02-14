@@ -10,11 +10,6 @@ jobs:
       working-directory: ./code
       
     steps:
-    - name: Composer install
-      uses: docker://composer
-      with:
-        args: install
-    - name: PHPUnit testing
-      uses: docker://php
-      with:
-        args: php vendor/bin/phpunit
+    - uses: actions/checkout@v1
+    - name: Build the docker-compose stack
+    run: docker-compose up
